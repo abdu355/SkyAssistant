@@ -6,6 +6,11 @@
 package DBHandler;
 
 import AppLogic.*;
+import com.couchbase.client.java.Bucket;
+import com.couchbase.client.java.Cluster;
+import com.couchbase.client.java.CouchbaseCluster;
+import com.couchbase.client.java.document.JsonDocument;
+import com.couchbase.client.java.document.json.JsonObject;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -18,23 +23,27 @@ import javax.servlet.http.HttpServlet;
  */
 public class DataStoreFunctions {
 
+    Cluster cluster;
+    Bucket bucket;
     DatastoreService ds;
     int uniqueId;
-    
+
     public DataStoreFunctions() {
         int uniqueId = 0;
         ds = DatastoreServiceFactory.getDatastoreService();
+        cluster = CouchbaseCluster.create();
+        bucket = cluster.openBucket();
     }
 
-    public void createUser() {
+    public void createUser(String... params) {
         //String uniqueID = UUID.randomUUID().toString();
-
-        Entity e = new Entity("User", getUniqueId());
-        e.setProperty("FullName", "Abdu");
-        e.setProperty("Password", "hi123");
-        e.setProperty("Email", "abdu_sah@hotmail.com");
-        e.setProperty("DOB", "02/17/2016");
-        ds.put(e);
+        JsonObject user = JsonObject.empty()
+                .put("fullname", params[0])
+                .put("email", params[1])
+                .put("password", params[2])
+                .put("DOB", params[3]);
+        JsonDocument doc = JsonDocument.create(params[0], user);
+        JsonDocument response = bucket.upsert(doc);
     }
 
     private int getUniqueId() {
