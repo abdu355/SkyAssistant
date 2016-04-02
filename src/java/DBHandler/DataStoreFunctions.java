@@ -18,26 +18,30 @@ import javax.servlet.http.HttpServlet;
  */
 public class DataStoreFunctions {
 
-    int uniqueId = 0;
-    DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
+    DatastoreService ds;
+    int uniqueId;
+    
+    public DataStoreFunctions() {
+        int uniqueId = 0;
+        ds = DatastoreServiceFactory.getDatastoreService();
+    }
 
-    public void createUser(String... params) {
+    public void createUser() {
         //String uniqueID = UUID.randomUUID().toString();
-        
+
         Entity e = new Entity("User", getUniqueId());
-        e.setProperty("FullName", params[0]);
-        e.setProperty("Password", params[1]);
-        e.setProperty("Email", params[2]);
-        e.setProperty("DOB", params[3]);
-        ds.put(e);    
+        e.setProperty("FullName", "Abdu");
+        e.setProperty("Password", "hi123");
+        e.setProperty("Email", "abdu_sah@hotmail.com");
+        e.setProperty("DOB", "02/17/2016");
+        ds.put(e);
     }
 
     private int getUniqueId() {
         return ++uniqueId;
     }
-    
-    public String returnMessage()
-    {
+
+    public String returnMessage() {
         return "User Created";
     }
 

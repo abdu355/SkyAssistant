@@ -15,7 +15,7 @@
             DataStoreFunctions ds = new DataStoreFunctions();
            
             // Grab the variables from the form.
-           ds.createUser(request.getParameter("in_name"),request.getParameter("in_passwd"),request.getParameter("in_email"),request.getParameter("in_DOB"));
+           ds.createUser();
            namehand.setName(request.getParameter("in_name"));
         %>
         <h1>Hello, <%=namehand.getName()%> </h1>
