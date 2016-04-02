@@ -18,10 +18,10 @@
             //ds.createUser();
             String fullname = request.getParameter("in_name");
             String password = request.getParameter("in_passwd");
-            String email = request.getParameter("in_email)");
+            String email = request.getParameter("in_email");
             String DOB = request.getParameter("in_DOB");
             
-            ds.createUser(fullname,email,password,DOB); //creates User on CouchBaseDB
+            ds.createUser(fullname,password,email,DOB); //creates User on DataStore
             namehand.setName(request.getParameter("in_name"));
         %>
         <h1>Hello, <%=namehand.getName()%> </h1>
